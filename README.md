@@ -12,7 +12,7 @@
 
 Click any button below to install or try out the tools instantly:
 
-[![⚡ 1-Click Userscript Install](https://img.shields.io/badge/⚡_1--Click_Userscript_Install-Tampermonkey_%2F_Violentmonkey-00E676?style=for-the-badge&logo=tampermonkey&logoColor=white)](https://raw.githack.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js)
+[![⚡ 1-Click Userscript Install](https://img.shields.io/badge/⚡_1--Click_Userscript_Install-Tampermonkey_%2F_Violentmonkey-00E676?style=for-the-badge&logo=tampermonkey&logoColor=white)](https://raw.githack.com/Brennerofhell/buzzheavier-tools/main/install-redirect.html)
 [![🧩 Chrome / Edge Extension](https://img.shields.io/badge/🧩_Download_Chrome_Extension-ZIP_Package-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://github.com/Brennerofhell/buzzheavier-tools/archive/refs/heads/main.zip)
 [![🌐 Live Web GUI Preview](https://img.shields.io/badge/🌐_Live_Web_GUI_Preview-Interactive_Demo-7C4DFF?style=for-the-badge&logo=html5&logoColor=white)](https://raw.githack.com/Brennerofhell/buzzheavier-tools/main/userscript_gui_preview.html)
 [![🐍 Python Web GUI & CLI](https://img.shields.io/badge/🐍_Python_CLI_%26_Web_GUI-app.py-FFD43B?style=for-the-badge&logo=python&logoColor=306998)](app.py)
@@ -31,10 +31,9 @@ Unterstützt **Tampermonkey**, **Violentmonkey** und **Greasemonkey** (Chrome, F
 
 <div align="center">
 
-[![⚡ Hier klicken für 1-Klick Installation (GitHack CDN)](https://img.shields.io/badge/👉_1--KLICK_INSTALLATION-STARTEN_(GITHACK)-00E676?style=for-the-badge&logo=tampermonkey&logoColor=white)](https://raw.githack.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js)
-[![⚡ Alternative 1-Klick Installation (jsDelivr CDN)](https://img.shields.io/badge/👉_1--KLICK_INSTALLATION-STARTEN_(JSDELIVR)-00b4d8?style=for-the-badge&logo=tampermonkey&logoColor=white)](https://cdn.jsdelivr.net/gh/Brennerofhell/buzzheavier-tools@main/buzzheavier.user.js)
+[![⚡ 1-KLICK INSTALLATION STARTEN](https://img.shields.io/badge/👉_1--KLICK_INSTALLATION-STARTEN-00E676?style=for-the-badge&logo=tampermonkey&logoColor=white)](https://raw.githack.com/Brennerofhell/buzzheavier-tools/main/install-redirect.html)
 
-*(Direktlink: `https://raw.githack.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js`)*
+*(Direktlink via Redirect: `https://raw.githack.com/Brennerofhell/buzzheavier-tools/main/install-redirect.html`)*
 
 </div>
 
