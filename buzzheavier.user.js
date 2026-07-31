@@ -10,8 +10,8 @@
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_registerMenuCommand
-// @downloadURL  https://raw.githubusercontent.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js
-// @updateURL    https://raw.githubusercontent.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js
+// @downloadURL  https://raw.githack.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js
+// @updateURL    https://raw.githack.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js
 // @homepageURL  https://github.com/Brennerofhell/buzzheavier-tools
 // @supportURL   https://github.com/Brennerofhell/buzzheavier-tools/issues
 // @run-at       document-idle
