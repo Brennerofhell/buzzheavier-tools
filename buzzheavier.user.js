@@ -654,6 +654,12 @@
 
     // --- GUI PANELS & EVENT HANDLERS ---
     function initGUI() {
+        // Prevent loading on Cloudflare challenge page
+        if (document.title.includes('Just a moment') || document.querySelector('#challenge-running')) {
+            console.log('Buzzheavier GUI: Cloudflare challenge detected. Waiting for redirect...');
+            return;
+        }
+
         if (document.getElementById('bh-gui-launcher')) return;
 
         injectStyles();
