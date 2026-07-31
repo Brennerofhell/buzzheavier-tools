@@ -788,11 +788,21 @@
         });
 
         document.getElementById('bh-export-crawljob').addEventListener('click', () => {
-            const vars = getAllVariants().map(v => v.url);
-            if (vars.length > 0) {
-                const crawljobContent = `text=${vars.join('\n')}\nautoStart=TRUE\nautoConfirm=TRUE`;
-                downloadFile(crawljobContent, `buzzheavier_${extractFileId() || 'links'}.crawljob`);
-                showToast('JDownloader Crawljob heruntergeladen', '📦');
+            const fileId = extractFileId();
+            if (fileId) {
+                const cdnUrl = `https://dd.buzzheavier.com/f/${fileId}`;
+                const crawljobContent = [
+                    `text=${cdnUrl}`,
+                    `downloadURL=${cdnUrl}`,
+                    `pluginForHost=directhttp`,
+                    `packageName=Buzzheavier_${fileId}`,
+                    `autoStart=TRUE`,
+                    `autoConfirm=TRUE`
+                ].join('\n');
+                downloadFile(crawljobContent, `buzzheavier_${fileId}.crawljob`);
+                showToast('JDownloader Crawljob heruntergeladen (directhttp Bypass)', '📦');
+            } else {
+                showToast('Keine Datei-ID gefunden', '⚠️');
             }
         });
 

@@ -88,9 +88,24 @@ def process_batch(input_sources, output_file=None, copy_clipboard=False):
     result_text = "\n".join(jdownloader_list)
 
     if output_file:
+        if output_file.endswith(".crawljob"):
+            crawl_entries = []
+            for item in urls:
+                file_id, token = extract_info(item)
+                cdn_url = f"https://dd.buzzheavier.com/f/{file_id}"
+                crawl_entries.append(
+                    f"text={cdn_url}\n"
+                    f"downloadURL={cdn_url}\n"
+                    f"pluginForHost=directhttp\n"
+                    f"packageName=Buzzheavier_{file_id}\n"
+                    f"autoStart=TRUE\n"
+                    f"autoConfirm=TRUE"
+                )
+            result_text = "\n\n".join(crawl_entries)
+
         with open(output_file, "w", encoding="utf-8") as f:
             f.write(result_text)
-        print(f"✅ JDownloader 2 Link-Liste ({len(jdownloader_list)} Links) gespeichert in: '{output_file}'")
+        print(f"✅ JDownloader 2 Link-Liste/Crawljob gespeichert in: '{output_file}'")
 
     if copy_clipboard:
         if HAS_PYPERCLIP:
