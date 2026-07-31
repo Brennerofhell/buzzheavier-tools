@@ -90,7 +90,7 @@ def upload_file(file_path, token=None, parent_id=None):
 
     progress_reader = ProgressFileWriter(file_path)
     try:
-        response = requests.put(url, data=progress_reader, headers=headers)
+        response = requests.put(url, data=progress_reader, headers=headers, timeout=30)
         progress_reader.close()
 
         if response.status_code in (200, 201):
@@ -126,7 +126,10 @@ def get_direct_download_info(url_or_id):
 
     # Step 1: Fetch page with HTMX header to bypass Cloudflare challenge
     page_url = f"https://buzzheavier.com/{clean_id}"
-    res = requests.get(page_url, headers=headers)
+    try:
+        res = requests.get(page_url, headers=headers, timeout=10)
+    except requests.exceptions.RequestException:
+        raise Exception("Connection timed out or blocked by Cloudflare.")
 
     filename = f"{clean_id}.bin"
     if res.status_code == 200:
@@ -144,10 +147,13 @@ def get_direct_download_info(url_or_id):
             dl_trigger_url = f"https://buzzheavier.com{download_token_path}"
             
             # Step 2: Trigger signed download link
-            res_dl = requests.get(dl_trigger_url, headers=headers, allow_redirects=False)
-            direct_link = res_dl.headers.get("Hx-Redirect") or res_dl.headers.get("Location")
-            if direct_link:
-                return filename, direct_link
+            try:
+                res_dl = requests.get(dl_trigger_url, headers=headers, allow_redirects=False, timeout=10)
+                direct_link = res_dl.headers.get("Hx-Redirect") or res_dl.headers.get("Location")
+                if direct_link:
+                    return filename, direct_link
+            except requests.exceptions.RequestException:
+                pass
 
     # Fallback to direct download endpoint
     direct_link = f"https://buzzheavier.com/{clean_id}/download"
@@ -170,7 +176,7 @@ def download_file(url_or_id, output_path=None):
     dl_headers["Referer"] = f"https://buzzheavier.com/"
 
     try:
-        with requests.get(direct_link, headers=dl_headers, stream=True) as r:
+        with requests.get(direct_link, headers=dl_headers, stream=True, timeout=15) as r:
             r.raise_for_status()
             total_size = int(r.headers.get('content-length', 0))
             downloaded = 0

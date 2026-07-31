@@ -44,7 +44,7 @@ def resolve_direct_link(url_or_id):
     try:
         page_url = f"https://buzzheavier.com/{clean_id}"
         req1 = urllib.request.Request(page_url, headers=headers)
-        with urllib.request.urlopen(req1) as resp1:
+        with urllib.request.urlopen(req1, timeout=10) as resp1:
             html = resp1.read().decode("utf-8")
             token_match = re.search(r'hx-get="(/[^"]+/download\?t=[^"]+)"', html)
             if token_match:
@@ -52,7 +52,7 @@ def resolve_direct_link(url_or_id):
                 trigger_url = f"https://buzzheavier.com{token_path}"
                 req2 = urllib.request.Request(trigger_url, headers=headers)
                 try:
-                    with urllib.request.urlopen(req2) as resp2:
+                    with urllib.request.urlopen(req2, timeout=10) as resp2:
                         pass
                 except urllib.error.HTTPError as e:
                     redirect_link = e.headers.get("Hx-Redirect") or e.headers.get("Location")
@@ -732,7 +732,7 @@ class BuzzheavierRequestHandler(http.server.BaseHTTPRequestHandler):
 
             req = urllib.request.Request(upload_url, data=file_data, headers=req_headers, method="PUT")
             try:
-                with urllib.request.urlopen(req) as resp:
+                with urllib.request.urlopen(req, timeout=30) as resp:
                     resp_body = resp.read().decode("utf-8")
                     resp_json = json.loads(resp_body)
                     file_id = resp_json.get("data", {}).get("id", "")

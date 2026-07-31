@@ -73,7 +73,7 @@ download_file() {
     echo "Resolving Buzzheavier link: $URL"
 
     # Fetch page with HTMX header to bypass Cloudflare challenge
-    local PAGE_HTML=$(curl -sL -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" -H "HX-Request: true" -H "Referer: https://buzzheavier.com/f/${FILE_ID}" "$URL")
+    local PAGE_HTML=$(curl -m 10 -sL -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" -H "HX-Request: true" -H "Referer: https://buzzheavier.com/f/${FILE_ID}" "$URL")
 
     # Extract filename from title if available
     local EXTRACTED_NAME=$(echo "$PAGE_HTML" | grep -oP '<title>\K[^<]+' | head -n 1)
@@ -93,7 +93,7 @@ download_file() {
 
     echo "Requesting direct download link..."
     # Perform HTMX request to capture hx-redirect header
-    local HEADERS=$(curl -sI -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" -H "HX-Request: true" -H "Referer: $URL" "$DL_ENDPOINT")
+    local HEADERS=$(curl -m 10 -sI -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" -H "HX-Request: true" -H "Referer: $URL" "$DL_ENDPOINT")
 
     local DIRECT_LINK=$(echo "$HEADERS" | grep -i "^hx-redirect:" | awk '{print $2}' | tr -d '\r')
 
@@ -109,7 +109,7 @@ download_file() {
     echo "Direct Link: $DIRECT_LINK"
     echo "Downloading file as '$OUT_NAME'..."
 
-    curl -# -L -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" -H "Referer: https://buzzheavier.com/" -o "$OUT_NAME" "$DIRECT_LINK"
+    curl -m 60 -# -L -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" -H "Referer: https://buzzheavier.com/" -o "$OUT_NAME" "$DIRECT_LINK"
 
     echo "✅ Download finished: $OUT_NAME"
 }
