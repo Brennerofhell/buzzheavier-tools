@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buzzheavier Tools - 1-Klick Installation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0b0d17;
+            --bg-card: rgba(22, 27, 46, 0.75);
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --secondary: #06b6d4;
+            --accent: #00E676;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(139, 92, 246, 0.2) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(6, 182, 212, 0.2) 0%, transparent 45%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 750px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 35px rgba(139, 92, 246, 0.15);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 230, 118, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(0, 230, 118, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #c4b5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        p.subtitle {
+            font-size: 15px;
+            color: var(--text-muted);
+        }
+
+        .step-card {
+            background: rgba(15, 20, 35, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            color: white;
+            margin-right: 8px;
+        }
+
+        .step-title {
+            font-size: 17px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 24px;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #00b0ff);
+            color: #0b0d17;
+            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 230, 118, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .code-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #a78bfa;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="badge">v3.3.0 HTMX Cloudflare Bypass</span>
+            <h1>Buzzheavier Userscript Installation</h1>
+            <p class="subtitle">Wähle eine der einfachen Methoden unten, um das Script zu aktivieren:</p>
+        </div>
+
+        <!-- METHOD 1: TAMPERMONKEY 1-CLICK -->
+        <div class="step-card">
+            <div class="step-title"><span class="step-num">1</span> Methode 1: Automatische 1-Klick Installation</div>
+            <p style="font-size:14px; color:var(--text-muted);">Erfordert die kostenlose Erweiterung Tampermonkey im Browser.</p>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:8px;">
+                <a href="https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank" class="btn btn-secondary">
+                    🌐 1. Tampermonkey im Chrome Web Store installieren
+                </a>
+                <a href="https://raw.githack.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js" class="btn btn-primary">
+                    ⚡ 2. Userscript jetzt installieren
+                </a>
+            </div>
+        </div>
+
+        <!-- METHOD 2: MANUAL PASTE -->
+        <div class="step-card">
+            <div class="step-title"><span class="step-num">2</span> Methode 2: Manuell in Tampermonkey einfügen</div>
+            <p style="font-size:14px; color:var(--text-muted);">Falls der automatische Link im Browser als Text geöffnet wird:</p>
+            <ol style="margin-left: 20px; font-size: 14px; color: #d1d5db; line-height: 1.6;">
+                <li>Öffne das Tampermonkey-Symbol im Browser -> <strong>Dashboard (Übersicht)</strong></li>
+                <li>Klicke oben rechts auf das Plus-Symbol <strong>"+" (Neues Skript erstellen)</strong></li>
+                <li>Kopiere den Code unten und füge ihn ein:</li>
+            </ol>
+            <button class="btn btn-secondary" onclick="copyScriptCode()" id="copy-btn">
+                📋 Script-Code in Zwischenablage kopieren
+            </button>
+        </div>
+
+        <!-- METHOD 3: CHROME EXTENSION -->
+        <div class="step-card">
+            <div class="step-title"><span class="step-num">3</span> Methode 3: Als permanente Chrome-Erweiterung</div>
+            <p style="font-size:14px; color:var(--text-muted);">Ganz ohne Tampermonkey als entpackte Erweiterung nutzen:</p>
+            <ol style="margin-left: 20px; font-size: 14px; color: #d1d5db; line-height: 1.6;">
+                <li>Öffne in Chrome: <code class="code-box">chrome://extensions/</code></li>
+                <li>Aktiviere oben rechts den <strong>Entwicklermodus</strong>.</li>
+                <li>Klicke auf <strong>Entpackte Erweiterung laden</strong> und wähle den Ordner <code class="code-box">extension/</code> aus.</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        function copyScriptCode() {
+            fetch('https://raw.githubusercontent.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js')
+                .then(r => r.text())
+                .then(code => {
+                    navigator.clipboard.writeText(code).then(() => {
+                        const btn = document.getElementById('copy-btn');
+                        btn.textContent = "✅ Code erfolgreich kopiert!";
+                        btn.style.background = "#10b981";
+                        btn.style.color = "#white";
+                        setTimeout(() => {
+                            btn.textContent = "📋 Script-Code in Zwischenablage kopieren";
+                            btn.style.background = "";
+                        }, 3000);
+                    });
+                });
+        }
+    </script>
+</body>
+</html>
