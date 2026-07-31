@@ -1,15 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Buzzheavier Userscript - Installing...</title>
+<title>Buzzheavier Userscript - Wird installiert...</title>
+<!-- Primary: Meta-Refresh - browser-native, always intercepted by Tampermonkey -->
+<meta http-equiv="refresh" content="0;url=https://raw.githack.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js">
 <script>
-    // Strip any fragment (#bypass=true etc.) and redirect cleanly to the .user.js
-    // Tampermonkey requires a clean URL without hash fragments to trigger the install dialog
+    // Fallback: JS redirect (strips #bypass=true and any other fragments)
     window.location.replace('https://raw.githack.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js');
 </script>
+<style>
+body { background: #0b0d17; color: #f3f4f6; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; flex-direction: column; gap: 16px; }
+a { color: #00E676; font-size: 14px; }
+p { color: #9ca3af; font-size: 15px; }
+</style>
 </head>
 <body>
-    <p>Redirecting to Userscript installer...</p>
+    <p>⚡ Weiterleitung zur Userscript-Installation...</p>
+    <p>Falls nichts passiert: <a href="https://raw.githack.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js">Hier klicken zum manuellen Installieren</a></p>
 </body>
 </html>
