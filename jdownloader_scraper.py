@@ -47,14 +47,15 @@ def get_jdownloader_all_variants(url_or_id):
     if not file_id:
         return []
 
+    # Priority 1: Direct CDN link (Bypasses Cloudflare Site-Protection in JDownloader 2)
     variants = [
-        f"https://buzzheavier.com/{file_id}",
         f"https://dd.buzzheavier.com/f/{file_id}",
+        f"https://buzzheavier.com/{file_id}",
         f"https://buzzheavier.com/f/{file_id}"
     ]
 
     if token:
-        variants.append(f"https://buzzheavier.com/{file_id}/download?t={token}")
+        variants.insert(0, f"https://buzzheavier.com/{file_id}/download?t={token}")
         variants.append(f"https://buzzheavier.com/{file_id}/download?t={token}&alt=true")
 
     return variants

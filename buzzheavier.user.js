@@ -563,13 +563,13 @@
         const token = extractToken();
 
         const list = [
+            { title: 'CDN Direct Path (Bypasses Cloudflare)', tag: 'cdn', url: `https://dd.buzzheavier.com/f/${fileId}` },
             { title: 'Landing Page URL', tag: 'primary', url: `https://buzzheavier.com/${fileId}` },
-            { title: 'CDN Direct Path', tag: 'cdn', url: `https://dd.buzzheavier.com/f/${fileId}` },
             { title: 'Short File Path', tag: 'primary', url: `https://buzzheavier.com/f/${fileId}` }
         ];
 
         if (token) {
-            list.push({ title: 'Direct Token Link', tag: 'direct', url: `https://buzzheavier.com/${fileId}/download?t=${token}` });
+            list.unshift({ title: 'Direct Token Link', tag: 'direct', url: `https://buzzheavier.com/${fileId}/download?t=${token}` });
             list.push({ title: 'Alternative Mirror Token', tag: 'direct', url: `https://buzzheavier.com/${fileId}/download?t=${token}&alt=true` });
         }
 
