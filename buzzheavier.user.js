@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Buzzheavier JDownloader 2 Batch Scraper & Link Copier Pro GUI
 // @namespace    https://github.com/Brennerofhell/buzzheavier-tools
-// @version      3.0.0
+// @version      3.1.0
 // @description  Modern Glassmorphic Control Center GUI for Buzzheavier file download link extraction, 5 mirror variants, batch scraping & JDownloader export.
 // @author       Brennerofhell
 // @match        https://buzzheavier.com/*
@@ -664,7 +664,7 @@
                     </div>
                     <div id="bh-variants-container"></div>
                     <button class="bh-btn bh-btn-primary" id="bh-copy-all-variants">
-                        📋 Alle ${variants.length} Varianten für JDownloader 2 Kopieren
+                        ⚡ JDownloader 2 Link Kopieren (Cloudflare-Bypass)
                     </button>
                 </div>
 
@@ -674,7 +674,7 @@
                     <div class="bh-scraper-list" id="bh-scraper-list"></div>
                     <div class="bh-btn-row">
                         <button class="bh-btn bh-btn-primary" id="bh-copy-scraped" style="flex: 1;">
-                            📋 Ausgewählte Kopieren
+                            ⚡ Scraped Links für JDownloader Kopieren (Bypass)
                         </button>
                         <button class="bh-btn bh-btn-secondary" id="bh-rescan-page">
                             🔄 Neu Scannen
@@ -687,14 +687,14 @@
                     <div style="font-size: 12px; color: var(--bh-text-muted);">
                         Exportiere Links für externe Download-Manager:
                     </div>
-                    <button class="bh-btn bh-btn-secondary" id="bh-export-txt">
-                        📄 Als Textdatei (.txt) herunterladen
+                    <button class="bh-btn bh-btn-primary" id="bh-copy-direct-only">
+                        ⚡ JDownloader 2 Direkt-CDN Link Kopieren (Bypass)
                     </button>
                     <button class="bh-btn bh-btn-secondary" id="bh-export-crawljob">
                         📦 JDownloader 2 Crawljob (.crawljob) erstellen
                     </button>
-                    <button class="bh-btn bh-btn-primary" id="bh-copy-direct-only">
-                        ⚡ Nur Direct-Download Links Kopieren
+                    <button class="bh-btn bh-btn-secondary" id="bh-export-txt">
+                        📄 Als Textdatei (.txt) herunterladen
                     </button>
                 </div>
 
@@ -924,11 +924,17 @@
     function copyScrapedLinks() {
         const selected = [];
         document.querySelectorAll('#bh-scraper-list input[type="checkbox"]:checked').forEach(chk => {
-            selected.push(chk.value);
+            const rawUrl = chk.value;
+            const match = rawUrl.match(/(?:f\/|buzzheavier\.com\/)([a-zA-Z0-9]+)/);
+            if (match && match[1] && match[1] !== 'download') {
+                selected.push(`https://dd.buzzheavier.com/f/${match[1]}`);
+            } else {
+                selected.push(rawUrl);
+            }
         });
 
         if (selected.length > 0) {
-            copyToClipboard(selected.join('\n'), `✅ ${selected.length} gefundene Links kopiert!`);
+            copyToClipboard(selected.join('\n'), `⚡ ${selected.length} JDownloader-Bypass Links kopiert!`);
         } else {
             showToast('Keine Links ausgewählt', '⚠️');
         }
