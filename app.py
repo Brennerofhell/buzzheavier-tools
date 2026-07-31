@@ -9,6 +9,7 @@ Launches a local web server and opens the browser interface automatically.
 import os
 import sys
 import json
+import re
 import urllib.parse
 import urllib.request
 import urllib.error
@@ -20,6 +21,48 @@ import webbrowser
 PORT = 5000
 UPLOAD_BASE_URL = "https://w.buzzheavier.com"
 WEB_BASE_URL = "https://buzzheavier.com"
+HEADERS_BASE = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+}
+
+
+def resolve_direct_link(url_or_id):
+    clean_id = url_or_id.strip()
+    if clean_id.startswith("http"):
+        parsed = urllib.parse.urlparse(clean_id)
+        path_parts = [p for p in parsed.path.strip("/").split("/") if p]
+        if path_parts:
+            if path_parts[0] == "f" and len(path_parts) > 1:
+                clean_id = path_parts[1]
+            else:
+                clean_id = path_parts[0]
+
+    headers = dict(HEADERS_BASE)
+    headers["HX-Request"] = "true"
+    headers["Referer"] = f"https://buzzheavier.com/f/{clean_id}"
+
+    try:
+        page_url = f"https://buzzheavier.com/{clean_id}"
+        req1 = urllib.request.Request(page_url, headers=headers)
+        with urllib.request.urlopen(req1) as resp1:
+            html = resp1.read().decode("utf-8")
+            token_match = re.search(r'hx-get="(/[^"]+/download\?t=[^"]+)"', html)
+            if token_match:
+                token_path = token_match.group(1).replace("&amp;", "&")
+                trigger_url = f"https://buzzheavier.com{token_path}"
+                req2 = urllib.request.Request(trigger_url, headers=headers)
+                try:
+                    with urllib.request.urlopen(req2) as resp2:
+                        pass
+                except urllib.error.HTTPError as e:
+                    redirect_link = e.headers.get("Hx-Redirect") or e.headers.get("Location")
+                    if redirect_link:
+                        return redirect_link
+    except Exception as e:
+        pass
+
+    return f"https://buzzheavier.com/{clean_id}"
+
 
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="de">
@@ -598,14 +641,21 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         const urlInput = document.getElementById('download-url').value.trim();
         if (!urlInput) return;
 
-        let cleanId = urlInput;
-        if (cleanId.includes('/')) {
-            cleanId = cleanId.split('/').pop();
-        }
-
-        const directUrl = "https://dd.buzzheavier.com/f/" + cleanId;
-        document.getElementById('download-url-text').textContent = directUrl;
+        document.getElementById('download-url-text').textContent = "🔍 Link wird abgerufen (Cloudflare-Bypass)...";
         document.getElementById('download-result').style.display = 'block';
+
+        fetch('/api/resolve?url=' + encodeURIComponent(urlInput))
+            .then(res => res.json())
+            .then(data => {
+                if (data.success && data.url) {
+                    document.getElementById('download-url-text').textContent = data.url;
+                } else {
+                    document.getElementById('download-url-text').textContent = "Fehler beim Auflösen des Links.";
+                }
+            })
+            .catch(err => {
+                document.getElementById('download-url-text').textContent = "Netzwerkfehler beim Abrufen des Links.";
+            });
     }
 
     function renderHistory() {
@@ -641,11 +691,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
 class BuzzheavierRequestHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
-        if self.path == "/" or self.path == "/index.html":
+        parsed_path = urllib.parse.urlparse(self.path)
+        if parsed_path.path == "/" or parsed_path.path == "/index.html":
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.end_headers()
             self.wfile.write(HTML_TEMPLATE.encode("utf-8"))
+        elif parsed_path.path == "/api/resolve":
+            query_params = urllib.parse.parse_qs(parsed_path.query)
+            target_url = query_params.get("url", [""])[0]
+            resolved = resolve_direct_link(target_url) if target_url else ""
+            self._send_json({"success": bool(resolved), "url": resolved})
         else:
             self.send_response(404)
             self.end_headers()

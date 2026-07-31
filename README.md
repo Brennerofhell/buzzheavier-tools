@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Buzzheavier Tools Banner](https://img.shields.io/badge/Buzzheavier-Control_Center_v3.0.0-00E676?style=for-the-badge&logo=rocket&logoColor=white)
+![Buzzheavier Tools Banner](https://img.shields.io/badge/Buzzheavier-Control_Center_v3.3.0-00E676?style=for-the-badge&logo=rocket&logoColor=white)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/Brennerofhell/buzzheavier-tools?style=for-the-badge&color=gold)](https://github.com/Brennerofhell/buzzheavier-tools/stargazers)
 
@@ -23,7 +23,7 @@ Click any button below to install or try out the tools instantly:
 
 ## ⚙️ Installation & Setup Options
 
-### 1️⃣ ⚡ Userscript Pro GUI (Empfohlen für Browser)
+### 1️⃣ ⚡ Userscript Pro GUI v3.3.0 (Empfohlen für Browser)
 Unterstützt **Tampermonkey**, **Violentmonkey** und **Greasemonkey** (Chrome, Firefox, Edge, Opera, Brave).
 
 > [!TIP]
@@ -38,9 +38,10 @@ Unterstützt **Tampermonkey**, **Violentmonkey** und **Greasemonkey** (Chrome, F
 </div>
 
 #### ✨ Userscript Features (`buzzheavier.user.js`)
+- 🟢 **Automatic Highspeed Direct-Stream Resolver**: Automatische Auflösung der `ts.buzzheavier.com` Speicher-Links via HTMX Cloudflare Bypass.
 - 🟢 **Floating Action Launcher**: Button unten rechts mit Live-Link-Zähler.
 - ⌨️ **Tastenkombination**: `Alt + B` öffnet/schließt das Control Center überall auf Buzzheavier.
-- 🔗 **5 Mirror-Varianten**: Generiert automatisch alle 5 Download- und Mirror-URLs (`buzzheavier.com/{id}`, `dd.buzzheavier.com/f/{id}`, `buzzheavier.com/f/{id}`, Token-URL, Alt-Mirror).
+- 🔗 **5 Mirror-Varianten**: Generiert automatisch alle Download- und Mirror-URLs (`ts.buzzheavier.com/d/{id}`, `dd.buzzheavier.com/f/{id}`, `buzzheavier.com/f/{id}`, Token-URL, Alt-Mirror).
 - 📋 **Batch-Scraper**: Durchsucht Ordner & Seiten nach Links mit Filter & Massen-Kopieren.
 - 📦 **JDownloader 2 Export**: 1-Klick in die Zwischenablage oder als `.crawljob` / `.txt` Datei speichern.
 - ⚙️ **Verschiebbares Glassmorphism GUI**: Frei positionierbar, speichert Einstellungen lokal.

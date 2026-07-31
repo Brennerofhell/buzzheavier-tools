@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Buzzheavier JDownloader 2 Batch Scraper & Link Copier Pro GUI
 // @namespace    https://github.com/Brennerofhell/buzzheavier-tools
-// @version      3.1.0
-// @description  Modern Glassmorphic Control Center GUI for Buzzheavier file download link extraction, 5 mirror variants, batch scraping & JDownloader export.
+// @version      3.3.0
+// @description  Modern Glassmorphic Control Center GUI with HTMX Cloudflare Bypass, Highspeed Storage Resolver & JDownloader 2 Export.
 // @author       Brennerofhell
 // @match        https://buzzheavier.com/*
 // @grant        GM_setClipboard
@@ -16,7 +16,7 @@
 // @supportURL   https://github.com/Brennerofhell/buzzheavier-tools/issues
 // @run-at       document-idle
 // @icon         https://buzzheavier.com/favicon.ico
-// ==/UserScript==
+// ==UserScript==
 
 (function() {
     'use strict';
@@ -26,6 +26,7 @@
     const defaultSettings = {
         autoOpen: true,
         autoCopyOnLoad: false,
+        autoResolveHighspeed: true,
         showToasts: true,
         defaultTab: 'variants',
         theme: 'violet'
@@ -528,6 +529,8 @@
     }
 
     // --- HELPER LOGIC ---
+    let resolvedHighspeedUrl = '';
+
     function extractFileId() {
         const pathParts = window.location.pathname.split('/').filter(Boolean);
         return pathParts.filter(p => p !== 'f' && p !== 'download').pop() || '';
@@ -556,20 +559,54 @@
         return '';
     }
 
+    async function resolveHighspeedDirectUrl() {
+        if (resolvedHighspeedUrl) return resolvedHighspeedUrl;
+        const fileId = extractFileId();
+        if (!fileId) return '';
+
+        const token = extractToken();
+        const triggerUrl = token 
+            ? `https://buzzheavier.com/${fileId}/download?t=${token}` 
+            : `https://buzzheavier.com/${fileId}/download`;
+
+        try {
+            const res = await fetch(triggerUrl, {
+                headers: {
+                    'HX-Request': 'true',
+                    'Referer': window.location.href
+                },
+                redirect: 'manual'
+            });
+            const hxRedirect = res.headers.get('Hx-Redirect') || res.headers.get('Location');
+            if (hxRedirect) {
+                resolvedHighspeedUrl = hxRedirect;
+                return hxRedirect;
+            }
+        } catch(e) {
+            console.error('Buzzheavier GUI: Highspeed direct resolve error', e);
+        }
+        return '';
+    }
+
     function getAllVariants() {
         const fileId = extractFileId();
         if (!fileId) return [];
 
         const token = extractToken();
 
-        const list = [
-            { title: 'CDN Direct Path (Bypasses Cloudflare)', tag: 'cdn', url: `https://dd.buzzheavier.com/f/${fileId}` },
+        const list = [];
+        if (resolvedHighspeedUrl) {
+            list.push({ title: '⚡ Direct Highspeed Storage Stream (Cloudflare Bypass)', tag: 'direct', url: resolvedHighspeedUrl });
+        }
+
+        list.push(
+            { title: 'CDN Direct Path (Cloudflare Bypass)', tag: 'cdn', url: `https://dd.buzzheavier.com/f/${fileId}` },
             { title: 'Landing Page URL', tag: 'primary', url: `https://buzzheavier.com/${fileId}` },
             { title: 'Short File Path', tag: 'primary', url: `https://buzzheavier.com/f/${fileId}` }
-        ];
+        );
 
         if (token) {
-            list.unshift({ title: 'Direct Token Link', tag: 'direct', url: `https://buzzheavier.com/${fileId}/download?t=${token}` });
+            list.push({ title: 'Direct Token Link', tag: 'direct', url: `https://buzzheavier.com/${fileId}/download?t=${token}` });
             list.push({ title: 'Alternative Mirror Token', tag: 'direct', url: `https://buzzheavier.com/${fileId}/download?t=${token}&alt=true` });
         }
 
@@ -850,6 +887,18 @@
         if (settings.autoCopyOnLoad) {
             const vars = getAllVariants().map(v => v.url);
             if (vars.length > 0) copyToClipboard(vars.join('\n'), 'Auto-Copy: Links kopiert!');
+        }
+
+        // Auto Highspeed Direct Stream Resolver
+        if (settings.autoResolveHighspeed) {
+            resolveHighspeedDirectUrl().then(url => {
+                if (url) {
+                    renderVariants();
+                    const badge = document.getElementById('bh-badge-count');
+                    if (badge) badge.textContent = getAllVariants().length;
+                    showToast('⚡ Highspeed Direct-Link aufgelöst!', '🚀');
+                }
+            });
         }
     }
 

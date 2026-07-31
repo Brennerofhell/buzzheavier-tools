@@ -63,36 +63,37 @@ download_file() {
     local INPUT="$1"
     local OUTPUT="$2"
 
-    # Normalize URL
-    local URL="$INPUT"
-    if [[ "$INPUT" != http* ]]; then
-        URL="https://buzzheavier.com/$INPUT"
+    # Normalize ID/URL
+    local FILE_ID="$INPUT"
+    if [[ "$INPUT" == http* ]]; then
+        FILE_ID=$(echo "$INPUT" | sed -E 's|https?://[^/]+/f/||; s|https?://[^/]+/||; s|/.*||')
     fi
 
+    local URL="https://buzzheavier.com/${FILE_ID}"
     echo "Resolving Buzzheavier link: $URL"
 
-    # Fetch page to get HX endpoint
-    local PAGE_HTML=$(curl -sL -A "Mozilla/5.0" "$URL")
+    # Fetch page with HTMX header to bypass Cloudflare challenge
+    local PAGE_HTML=$(curl -sL -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" -H "HX-Request: true" -H "Referer: https://buzzheavier.com/f/${FILE_ID}" "$URL")
 
-    # Extract filename if available
-    local EXTRACTED_NAME=$(echo "$PAGE_HTML" | grep -oP '<span class="text-2xl[^"]*">\K[^<]+' | head -n 1)
-    if [ -z "$EXTRACTED_NAME" ]; then
-        EXTRACTED_NAME=$(basename "$URL")
+    # Extract filename from title if available
+    local EXTRACTED_NAME=$(echo "$PAGE_HTML" | grep -oP '<title>\K[^<]+' | head -n 1)
+    if [ -z "$EXTRACTED_NAME" ] || [ "$EXTRACTED_NAME" = "Just a moment..." ]; then
+        EXTRACTED_NAME="${FILE_ID}.bin"
     fi
 
     local OUT_NAME="${OUTPUT:-$EXTRACTED_NAME}"
 
-    # Extract download endpoint path
-    local DL_ENDPOINT=$(echo "$PAGE_HTML" | grep -oP 'hx-get="\K[^"]+' | head -n 1)
-    if [ -z "$DL_ENDPOINT" ]; then
-        DL_ENDPOINT="${URL%/}/download"
-    elif [[ "$DL_ENDPOINT" != http* ]]; then
-        DL_ENDPOINT="https://buzzheavier.com${DL_ENDPOINT}"
+    # Extract download token path
+    local DL_PATH=$(echo "$PAGE_HTML" | grep -oP 'hx-get="\K/[^"]+/download\?t=[^"]+' | head -n 1 | sed 's/&amp;/\&/g')
+    if [ -z "$DL_PATH" ]; then
+        DL_PATH="/${FILE_ID}/download"
     fi
+
+    local DL_ENDPOINT="https://buzzheavier.com${DL_PATH}"
 
     echo "Requesting direct download link..."
     # Perform HTMX request to capture hx-redirect header
-    local HEADERS=$(curl -sI -A "Mozilla/5.0" -H "HX-Request: true" -H "Referer: $URL" "$DL_ENDPOINT")
+    local HEADERS=$(curl -sI -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" -H "HX-Request: true" -H "Referer: $URL" "$DL_ENDPOINT")
 
     local DIRECT_LINK=$(echo "$HEADERS" | grep -i "^hx-redirect:" | awk '{print $2}' | tr -d '\r')
 
@@ -108,7 +109,7 @@ download_file() {
     echo "Direct Link: $DIRECT_LINK"
     echo "Downloading file as '$OUT_NAME'..."
 
-    curl -# -L -A "Mozilla/5.0" -H "Referer: https://buzzheavier.com/" -o "$OUT_NAME" "$DIRECT_LINK"
+    curl -# -L -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" -H "Referer: https://buzzheavier.com/" -o "$OUT_NAME" "$DIRECT_LINK"
 
     echo "✅ Download finished: $OUT_NAME"
 }

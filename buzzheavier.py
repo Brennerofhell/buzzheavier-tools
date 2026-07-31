@@ -107,42 +107,70 @@ def upload_file(file_path, token=None, parent_id=None):
 
 def get_direct_download_info(url_or_id):
     """
-    Extracts the signed download URL and filename for JDownloader 2.
+    Extracts the signed direct download URL and filename from Buzzheavier,
+    bypassing Cloudflare protection using HTMX headers.
     """
     clean_id = url_or_id.strip()
-    token = None
-    if "t=" in clean_id:
-        match = re.search(r't=([^&]+)', clean_id)
-        if match:
-            token = match.group(1)
-
     if clean_id.startswith("http"):
         parsed = urllib.parse.urlparse(clean_id)
-        clean_id = parsed.path.strip("/").split("/")[0]
+        path_parts = [p for p in parsed.path.strip("/").split("/") if p]
+        if path_parts:
+            if path_parts[0] == "f" and len(path_parts) > 1:
+                clean_id = path_parts[1]
+            else:
+                clean_id = path_parts[0]
 
-    if token:
-        direct_link = f"https://buzzheavier.com/{clean_id}/download?t={token}"
-    else:
-        direct_link = f"https://buzzheavier.com/{clean_id}/download"
+    headers = dict(HEADERS_BASE)
+    headers["HX-Request"] = "true"
+    headers["Referer"] = f"https://buzzheavier.com/f/{clean_id}"
+
+    # Step 1: Fetch page with HTMX header to bypass Cloudflare challenge
+    page_url = f"https://buzzheavier.com/{clean_id}"
+    res = requests.get(page_url, headers=headers)
 
     filename = f"{clean_id}.bin"
+    if res.status_code == 200:
+        # Extract filename from page title
+        title_match = re.search(r'<title>(.*?)</title>', res.text, re.IGNORECASE)
+        if title_match and title_match.group(1).strip():
+            extracted_title = title_match.group(1).strip()
+            if extracted_title != "Just a moment..." and not extracted_title.startswith("404"):
+                filename = extracted_title
+
+        # Extract signed download token path
+        token_match = re.search(r'hx-get="(/[^"]+/download\?t=[^"]+)"', res.text)
+        if token_match:
+            download_token_path = token_match.group(1).replace("&amp;", "&")
+            dl_trigger_url = f"https://buzzheavier.com{download_token_path}"
+            
+            # Step 2: Trigger signed download link
+            res_dl = requests.get(dl_trigger_url, headers=headers, allow_redirects=False)
+            direct_link = res_dl.headers.get("Hx-Redirect") or res_dl.headers.get("Location")
+            if direct_link:
+                return filename, direct_link
+
+    # Fallback to direct download endpoint
+    direct_link = f"https://buzzheavier.com/{clean_id}/download"
     return filename, direct_link
 
 
 def download_file(url_or_id, output_path=None):
-    """Downloads a file from Buzzheavier."""
+    """Downloads a file from Buzzheavier using Cloudflare bypass."""
     try:
         filename, direct_link = get_direct_download_info(url_or_id)
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"❌ Error resolving download link: {e}")
         sys.exit(1)
 
     target_name = output_path if output_path else filename
     print(f"Direct Link: {direct_link}")
     print(f"Saving as: {target_name}")
 
+    dl_headers = dict(HEADERS_BASE)
+    dl_headers["Referer"] = f"https://buzzheavier.com/"
+
     try:
-        with requests.get(direct_link, headers=HEADERS_BASE, stream=True) as r:
+        with requests.get(direct_link, headers=dl_headers, stream=True) as r:
             r.raise_for_status()
             total_size = int(r.headers.get('content-length', 0))
             downloaded = 0
@@ -166,6 +194,7 @@ def download_file(url_or_id, output_path=None):
     except Exception as e:
         print(f"\n❌ Error downloading file: {e}")
         sys.exit(1)
+
 
 
 def main():
