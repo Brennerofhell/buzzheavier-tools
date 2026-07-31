@@ -16,7 +16,7 @@
 // @supportURL   https://github.com/Brennerofhell/buzzheavier-tools/issues
 // @run-at       document-idle
 // @icon         https://buzzheavier.com/favicon.ico
-// ==UserScript==
+// ==/UserScript==
 
 (function() {
     'use strict';
