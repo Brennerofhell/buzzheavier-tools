@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buzzheavier Userscript GUI - Standalone Interactive Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; }
+        body {
+            background-color: #0b0d17;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.18) 0%, transparent 40%);
+            color: #f3f4f6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .sim-header {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sim-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a78bfa, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sim-card {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(22, 27, 46, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .file-title { font-weight: 600; font-size: 16px; color: #ffffff; }
+        .file-meta { font-size: 13px; color: #9ca3af; }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+            transition: all 0.2s;
+            width: fit-content;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.6);
+        }
+
+        .demo-banner {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px dashed rgba(139, 92, 246, 0.5);
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 13px;
+            color: #c4b5fd;
+            line-height: 1.5;
+        }
+
+        .sample-links-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .sample-link-item {
+            font-size: 13px;
+            color: #38bdf8;
+            text-decoration: none;
+        }
+        .sample-link-item:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="sim-header">
+        <div class="sim-logo">
+            <span>⚡ Buzzheavier.com</span>
+        </div>
+        <span style="font-size: 13px; color: #9ca3af;">Simulierte Buzzheavier Webseite (Demo Mode)</span>
+    </div>
+
+    <div class="sim-card">
+        <div class="demo-banner">
+            <strong>💡 Userscript GUI Interactive Live-Demo:</strong><br>
+            Das Userscript wurde direkt auf dieser Seite geladen. Unten rechts befindet sich der neue 
+            <strong>Floating Action Button</strong> mit Live-Link-Zähler! Klicke auf den Button oder drücke <code>Alt + B</code>, um das Kontrollzentrum zu öffnen.
+        </div>
+
+        <div class="file-info">
+            <div>
+                <div class="file-title">📦 Cyberpunk_2077_Update_v2.1_Pack.zip</div>
+                <div class="file-meta">Dateigröße: 4.82 GB • Hochgeladen: Vor 2 Stunden • File ID: <code>dr7u0u1a7edw</code></div>
+            </div>
+            <a href="https://buzzheavier.com/dr7u0u1a7edw/download?t=demo_token_12345" class="btn-download" hx-get="/dr7u0u1a7edw/download?t=demo_token_12345">
+                ⬇️ Download Starten (Token: demo_token_12345)
+            </a>
+        </div>
+
+        <div style="font-weight: 600; font-size: 14px; margin-top: 10px;">Spiegel-Links & Verwandte Dateien auf dieser Seite:</div>
+        <div class="sample-links-box">
+            <a href="https://buzzheavier.com/f/abc123xyz" class="sample-link-item">➜ https://buzzheavier.com/f/abc123xyz (Mod_Asset_Pack_v1.rar)</a>
+            <a href="https://buzzheavier.com/dr7u0u1a7edw" class="sample-link-item">➜ https://buzzheavier.com/dr7u0u1a7edw (Cyberpunk_2077_Update_v2.1_Pack.zip)</a>
+            <a href="https://buzzheavier.com/f/999887766" class="sample-link-item">➜ https://buzzheavier.com/f/999887766 (Graphics_Enhancer_Shader.7z)</a>
+        </div>
+    </div>
+
+    <!-- INJECT USERSCRIPT CODE FOR STANDALONE DEMO -->
+    <script>
+        // Set mock location path for extraction testing
+        if (window.location.pathname === '/' || window.location.pathname === '/userscript_gui_preview.html') {
+            try {
+                history.replaceState(null, null, '/dr7u0u1a7edw?t=demo_token_12345');
+            } catch(e) {}
+        }
+    </script>
+
+    <!-- INJECT FULL USERSCRIPT FOR LIVE DEMO -->
+    <script src="buzzheavier.user.js"></script>
+</body>
+</html>
