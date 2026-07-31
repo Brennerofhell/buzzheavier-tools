@@ -1,89 +1,101 @@
 # 🚀 Buzzheavier Tools & Control Center
 
-[![Tampermonkey 1-Click Install](https://img.shields.io/badge/Tampermonkey-1--Click%20Install-brightgreen?style=for-the-badge&logo=tampermonkey&logoColor=white)](buzzheavier.user.js)
+<div align="center">
+
+![Buzzheavier Tools Banner](https://img.shields.io/badge/Buzzheavier-Control_Center_v3.0.0-00E676?style=for-the-badge&logo=rocket&logoColor=white)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-v3.0.0-purple.svg?style=for-the-badge)](buzzheavier.user.js)
+[![GitHub Stars](https://img.shields.io/github/stars/Brennerofhell/buzzheavier-tools?style=for-the-badge&color=gold)](https://github.com/Brennerofhell/buzzheavier-tools/stargazers)
 
-CLI tools, Web GUI, Chrome Extension & Tampermonkey Userscript to upload, download and extract links from [Buzzheavier](https://buzzheavier.com).
+<br/>
 
----
+## 📥 1-Click Direct Installation Buttons
 
-## ⚡ 1-Click Userscript Installation (Tampermonkey / Violentmonkey)
+Click any button below to install or try out the tools instantly:
 
-Click the green badge below to install the standalone **Userscript Pro GUI** with a single click:
-
-👉 **[⚡ Klick hier für 1-Klick Installation (Tampermonkey / Violentmonkey)](buzzheavier.user.js)**
-
-*(Wenn du GitHub aufrufst, nutze diesen Raw-Link: `https://raw.githubusercontent.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js`)*
-
----
-
-## 🎨 Userscript Pro GUI Features (`buzzheavier.user.js`)
-
-A 100% standalone, modern glassmorphic Control Center UI overlay injected directly into `buzzheavier.com` pages.
-
-### 🌟 Features:
-- **Floating Action Launcher Widget**: Bottom-right glowing trigger with live link counter.
-- **Keyboard Shortcut**: Press `Alt + B` anywhere on Buzzheavier to toggle the control center.
-- **5-Variant Link Generator**: Automatically generates all 5 mirror & download link variants (`buzzheavier.com/{id}`, `dd.buzzheavier.com/f/{id}`, `buzzheavier.com/f/{id}`, token URL, `alt=true` mirror URL).
-- **Batch Scraper**: Scrapes directory listings or pages for all Buzzheavier links with search filter and mass copy.
-- **JDownloader & File Export**: 1-Click copy to clipboard, export as `.txt` or `.crawljob` file.
-- **Draggable & Persisted Settings**: Move panel anywhere on screen, configure auto-copy on load, auto-open panel & toast popups.
-
-### 🌐 Standalone Browser Test (No Tampermonkey Required):
-Open [`userscript_gui_preview.html`](file:///home/daniel/Dokumente/Buzz%20heavier%20projekt/userscript_gui_preview.html) in your browser for a live interactive preview!
+[![⚡ 1-Click Userscript Install](https://img.shields.io/badge/⚡_1--Click_Userscript_Install-Tampermonkey_%2F_Violentmonkey-00E676?style=for-the-badge&logo=tampermonkey&logoColor=white)](https://raw.githubusercontent.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js)
+[![🧩 Chrome / Edge Extension](https://img.shields.io/badge/🧩_Download_Chrome_Extension-ZIP_Package-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://github.com/Brennerofhell/buzzheavier-tools/archive/refs/heads/main.zip)
+[![🌐 Live Web GUI Preview](https://img.shields.io/badge/🌐_Live_Web_GUI_Preview-Interactive_Demo-7C4DFF?style=for-the-badge&logo=html5&logoColor=white)](https://raw.githack.com/Brennerofhell/buzzheavier-tools/main/userscript_gui_preview.html)
+[![🐍 Python Web GUI & CLI](https://img.shields.io/badge/🐍_Python_CLI_%26_Web_GUI-app.py-FFD43B?style=for-the-badge&logo=python&logoColor=306998)](app.py)
 
 ---
 
-## 🐍 Python CLI (`buzzheavier.py`) & Web GUI (`app.py`)
+</div>
 
-### Requirements
-- Python 3.6+
-- `requests` (`pip install requests`)
+## ⚙️ Installation & Setup Options
 
-### Usage
+### 1️⃣ ⚡ Userscript Pro GUI (Empfohlen für Browser)
+Unterstützt **Tampermonkey**, **Violentmonkey** und **Greasemonkey** (Chrome, Firefox, Edge, Opera, Brave).
 
-#### 1. Launch Local Web GUI App
+> [!TIP]
+> Klicke auf den Button unten, um die automatische Installation in deinem Userscript-Manager zu starten:
+
+<div align="center">
+
+[![⚡ Hier klicken für 1-Klick Tampermonkey Installation](https://img.shields.io/badge/👉_HIER_KLICKEN-1--KLICK_INSTALLATION_STARTEN-00E676?style=for-the-badge&logo=tampermonkey&logoColor=white)](https://raw.githubusercontent.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js)
+
+*(Direktlink: `https://raw.githubusercontent.com/Brennerofhell/buzzheavier-tools/main/buzzheavier.user.js`)*
+
+</div>
+
+#### ✨ Userscript Features (`buzzheavier.user.js`)
+- 🟢 **Floating Action Launcher**: Button unten rechts mit Live-Link-Zähler.
+- ⌨️ **Tastenkombination**: `Alt + B` öffnet/schließt das Control Center überall auf Buzzheavier.
+- 🔗 **5 Mirror-Varianten**: Generiert automatisch alle 5 Download- und Mirror-URLs (`buzzheavier.com/{id}`, `dd.buzzheavier.com/f/{id}`, `buzzheavier.com/f/{id}`, Token-URL, Alt-Mirror).
+- 📋 **Batch-Scraper**: Durchsucht Ordner & Seiten nach Links mit Filter & Massen-Kopieren.
+- 📦 **JDownloader 2 Export**: 1-Klick in die Zwischenablage oder als `.crawljob` / `.txt` Datei speichern.
+- ⚙️ **Verschiebbares Glassmorphism GUI**: Frei positionierbar, speichert Einstellungen lokal.
+
+---
+
+### 2️⃣ 🧩 Chrome / Browser Extension (Unpacked)
+Für Nutzer, die eine permanente Browser-Erweiterung bevorzugen:
+
+1. Laden Sie das Repository als ZIP herunter:  
+   [![ZIP herunterladen](https://img.shields.io/badge/📦_Download_Repo_ZIP-4285F4?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Brennerofhell/buzzheavier-tools/archive/refs/heads/main.zip)
+2. Entpacken Sie die ZIP-Datei auf Ihrem PC.
+3. Öffnen Sie in Chrome / Edge / Brave: `chrome://extensions/`
+4. Aktivieren Sie oben rechts den **Entwicklermodus (Developer mode)**.
+5. Klicken Sie auf **Entpackte Erweiterung laden (Load unpacked)** und wählen Sie den Ordner `extension/` aus.
+
+---
+
+### 3️⃣ 🐍 Python Web GUI (`app.py`) & CLI (`buzzheavier.py`)
+
+#### Voraussetzungen
 ```bash
-python3 app.py
+pip install requests
 ```
 
-#### 2. CLI Upload File
-```bash
-# Anonymous upload
-python3 buzzheavier.py upload myfile.zip
+#### Starten
 
-# Authenticated upload
-python3 buzzheavier.py upload myfile.zip --token YOUR_ACCOUNT_TOKEN
-```
-
-#### 3. CLI Download File
-```bash
-python3 buzzheavier.py download https://buzzheavier.com/f/abc123xyz
-```
+| Tool | Befehl | Beschreibung |
+|---|---|---|
+| 🌐 **Web GUI** | `python3 app.py` | Startet eine lokale Flask Web-Oberfläche |
+| 📤 **CLI Upload** | `python3 buzzheavier.py upload datei.zip` | Lädt Dateien per Konsole hoch |
+| 📥 **CLI Download** | `python3 buzzheavier.py download <URL>` | Lädt Dateien direkt per Konsole herunter |
 
 ---
 
-## 🐚 Bash Script (`buzzheavier.sh`)
-
+### 4️⃣ 🐚 Bash Script (`buzzheavier.sh`)
 ```bash
 chmod +x buzzheavier.sh
 
-# Upload file
-./buzzheavier.sh upload myfile.zip
+# Datei hochladen
+./buzzheavier.sh upload datei.zip
 
-# Download file
+# Datei herunterladen
 ./buzzheavier.sh download https://buzzheavier.com/f/abc123xyz
 ```
 
 ---
 
-## 📡 cURL One-Liners
+### 📡 cURL One-Liner (Keine Installation nötig)
 
 ```bash
-# Uploading
-curl -#o - -T "file.zip" "https://w.buzzheavier.com/file.zip"
+# Hochladen via cURL
+curl -#o - -T "datei.zip" "https://w.buzzheavier.com/datei.zip"
 
-# Direct Link Retrieval
+# Direktlink auslesen
 curl -sI -A "Mozilla/5.0" -H "HX-Request: true" -H "Referer: https://buzzheavier.com/f/FILE_ID" "https://buzzheavier.com/FILE_ID/download" | grep -i "^hx-redirect:"
 ```
+
